@@ -19,6 +19,7 @@ Preferably tested using Linux, coded on the VS-Code Editor for ease. */
     Using file operations is essential now.  */
 class introduction_check {
     private:
+        int introduction_check_details_option1; //damn that's one long variable name
         std::string FirstName; //Name of the person playing this dumbass game
         std::fstream ImportantFile; //This file will be used for writing stuff like team name and saving it.
 
@@ -32,8 +33,13 @@ class introduction_check {
         }
         //Testing file operations now in a function.
         void WritingIntoFile_StartingDetails() {
-            ImportantFile.open("ImportantFile.txt", std::ios::out); /*Using the open function to create a text
-            file called ImportantFile.txt with mode ios::out to write into it*/
+            std::string ImpFileName_One = "ImportantFile";
+            std::string ImpFileName_Two = FirstName;
+            std::string ResultImportantFile = ImpFileName_One + ImpFileName_Two; //concatenating the strings for a procedure name file
+            //Resulting file name should be of format ImportantFile/NameofPerson/ 
+            //Like ImportantFileJohn, ImportantFileMadhava, blah blah
+            ImportantFile.open(ResultImportantFile.c_str(), std::ios::out); /*Using the open function to create a file
+            with the name of the User so that their records will be saved.*/
             if(!ImportantFile) { //Checking if the operation is successful 
                 std::cout<<"The records has failed!"<<std::endl; //rEcOrDs indeed
             }
@@ -42,6 +48,13 @@ class introduction_check {
                 ImportantFile << "Name - " << FirstName <<std::endl; //It writes into the file.
                 ImportantFile.close(); //Once a file opened must be closed otherwise life becomes miserable.
             }
+        }
+        //This function is the starting conditional branching of the game.
+        void TakeEntry_details_two() {
+            std::cout<<"Welcome to the Game "<<FirstName<<"!"<<std::endl;
+            std::cout<<"What would you like to do?"<<std::endl;
+            std::cout<<"1.Create your own team for all games\n2.Start Quick Play with System Team"<<std::endl;
+            std::cin>>introduction_check_details_option1;
         } 
 
 };
