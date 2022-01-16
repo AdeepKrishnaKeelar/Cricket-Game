@@ -25,6 +25,10 @@ class introduction_check {
         std::string ImpFileName_One = "ImportantFile", ResultImportantFile=""; /* For the variables saving*/
         std::string TeamPlayer_name; /* For the team members and their positions*/
         std::fstream ImportantFile; /* This file will be used for writing stuff like team name and saving it. */
+        std::map<std::string,std::map<int,int>> T; /* Map STL definition. Temperary definition, might change in case gets hard*/ 
+        /* STL Map iterators */
+        std::map<std::string,std::map<int,int>>::iterator itr; 
+        std::map<int,int>::iterator ptr;
 
     /* All functions are declared here.*/
     public:
@@ -45,40 +49,39 @@ class introduction_check {
             else {
                 std::cout<<"The records have been opened!"<<std::endl; 
                 ImportantFile << "Name - " << FirstName <<std::endl; //It writes into the file.
-                ImportantFile.close(); //Once a file opened must be closed otherwise life becomes miserable.
             }
             /* the starting conditional branching of the game */
             std::cout<<"Welcome to the Game "<<FirstName<<"!"<<std::endl;
             std::cout<<"What would you like to do?"<<std::endl;
             std::cout<<"1.Create your own team for all games\n2.Start Quick Play with System Team"<<std::endl;
             std::cin>>introduction_check_details_option1;
+            ImportantFile.close(); //Once a file opened must be closed otherwise life becomes miserable.
         }
         /* This function will create the team given by the player. */
-        void CreateTeam_byUser() {
-            std::map<std::string,std::map<int,int>> T;
-            std::map<std::string,std::map<int,int>>::iterator itr;
-            std::map<int,int>::iterator ptr; 
-            int n=11;
+        void CreateTeam_byUser() { 
+            int n=11; /* Eleven dummies in a team, right? */
             while(n!=0) {
+                /* Input of all dummies */
                 std::cin>>TeamPlayer_name;
-                std::cin>>runs_total>>wickets_total;
-                T.insert(make_pair(TeamPlayer_name,std::map<int,int>()));
-                T[TeamPlayer_name].insert(std::make_pair(runs_total,wickets_total));
-                n--;
+                T.insert(make_pair(TeamPlayer_name,std::map<int,int>())); /* First you insert the name of the dummy*/
+                T[TeamPlayer_name].insert(std::make_pair(runs_total,wickets_total)); /* Then you add their score tally */
+                n--; /* Reduce the player's values otherwise it'll go to infinite loop */
             }
-            ImportantFile.open(ResultImportantFile.c_str(), std::ios::out);
-            if(!ImportantFile) {
+            ImportantFile.open(ResultImportantFile.c_str(), std::ios::out); /* Open the file */
+            if(!ImportantFile) { /* In case of failure */
                         std::cout<<"Record failed to open!"<<std::endl;
             }
             else {
                 for(itr=T.begin();itr!=T.end();itr++) {
                     for(ptr=itr->second.begin();ptr!=itr->second.end();ptr++) {
-                        ImportantFile << "Player "<<n<<": "<<itr->first<<" Runs: "<<ptr->first<<" Wickets: "<<ptr->second<<std::endl;
-                        n++;
+                        /* In this module, the contents are written into the file, their names and runs and wickets. */
+                        /* Beauty of it is that it gets auto-sorted, love C++ */ 
+                        ImportantFile << "Player "<<n<<": "<<itr->first<<" Runs: "<<ptr->first<<" Wickets: "<<ptr->second<<std::endl; 
+                        n++; /* Player count increment*/
                     }
                 }
             }
-            ImportantFile.close();
+            ImportantFile.close(); /* Close the damn file otherwise someone will mess it up*/
         } 
 };
 
