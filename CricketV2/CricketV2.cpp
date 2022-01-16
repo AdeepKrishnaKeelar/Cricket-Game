@@ -10,8 +10,8 @@ Preferably tested using Linux, coded on the VS-Code Editor for ease. */
 #include<algorithm> //Need this for...stuff.
 #include<map> //Map STL for name, run tally.
 #include<bits/stdc++.h> //Standard C++ header file containing all the header files, looks neat
-//using namespace std;
-//not using that to prove a point to some wannabe programmers. Going to take the harsh methods itself
+/* using namespace std; */
+/* not using that to prove a point to some wannabe programmers. Going to take the harsh methods itself */
 
 /* The classes I'm going to use ---
 1. introduction_check is a class that takes in the basics.
@@ -21,6 +21,7 @@ class introduction_check {
     private:
         int introduction_check_details_option1; //damn that's one long variable name
         std::string FirstName; //Name of the person playing this dumbass game
+        std::string ImpFileName_One = "ImportantFile", ImpFileName_Two, ResultImportantFile;
         std::fstream ImportantFile; //This file will be used for writing stuff like team name and saving it.
 
     public:
@@ -29,15 +30,11 @@ class introduction_check {
             std::cout<<"Welcome to Cricket!"<<std::endl; //All these are polite output lines.
             std::cout<<"Please enter your name to start: ";
             std::cin>>FirstName;
+            ImpFileName_Two = FirstName;
             std::cout<<"Thank you "<<FirstName<<std::endl;
-        }
-        //Testing file operations now in a function.
-        void WritingIntoFile_StartingDetails() {
-            std::string ImpFileName_One = "ImportantFile";
-            std::string ImpFileName_Two = FirstName;
-            std::string ResultImportantFile = ImpFileName_One + ImpFileName_Two; //concatenating the strings for a procedure name file
-            //Resulting file name should be of format ImportantFile/NameofPerson/ 
-            //Like ImportantFileJohn, ImportantFileMadhava, blah blah
+            ResultImportantFile = ImpFileName_One + ImpFileName_Two; //concatenating the strings for a procedure name file
+            /*Resulting file name should be of format ImportantFile/NameofPerson/ 
+            Like ImportantFileJohn, ImportantFileMadhava, blah blah */
             ImportantFile.open(ResultImportantFile.c_str(), std::ios::out); /*Using the open function to create a file
             with the name of the User so that their records will be saved.*/
             if(!ImportantFile) { //Checking if the operation is successful 
@@ -48,24 +45,20 @@ class introduction_check {
                 ImportantFile << "Name - " << FirstName <<std::endl; //It writes into the file.
                 ImportantFile.close(); //Once a file opened must be closed otherwise life becomes miserable.
             }
-        }
-        //This function is the starting conditional branching of the game.
-        void TakeEntry_details_two() {
+            /* the starting conditional branching of the game */
             std::cout<<"Welcome to the Game "<<FirstName<<"!"<<std::endl;
             std::cout<<"What would you like to do?"<<std::endl;
             std::cout<<"1.Create your own team for all games\n2.Start Quick Play with System Team"<<std::endl;
             std::cin>>introduction_check_details_option1;
         } 
-
 };
 
-//Testing the main function regularly
+/* Testing the main function regularly */
 int main(void) {
-    //Here, the object for the first class is made. Since it's in development stage
-    //It's being called. Will check and inherit later.
+    /*Here, the object for the first class is made. Since it's in development stage
+    It's being called. Will check and inherit later. */
     introduction_check i;
     //calling the function
     i.TakeEntry_details();
-    i.WritingIntoFile_StartingDetails();
     return 0;
 }
