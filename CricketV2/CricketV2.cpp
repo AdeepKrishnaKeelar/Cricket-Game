@@ -18,21 +18,23 @@ Preferably tested using Linux, coded on the VS-Code Editor for ease. */
     1.1. I guess, after it takes the name, it's going to set a list of options - Create team or Quick Play.
     Using file operations is essential now.  */
 class introduction_check {
+    /* All variables are declared here. */
     private:
-        int introduction_check_details_option1; //damn that's one long variable name
-        std::string FirstName; //Name of the person playing this dumbass game
-        std::string ImpFileName_One = "ImportantFile", ImpFileName_Two, ResultImportantFile;
-        std::fstream ImportantFile; //This file will be used for writing stuff like team name and saving it.
+        int introduction_check_details_option1, runs_total=0, wickets_total=0; /* damn that's one long variable name */
+        std::string FirstName=""; /* Name of the person playing this dumbass game */
+        std::string ImpFileName_One = "ImportantFile", ResultImportantFile=""; /* For the variables saving*/
+        std::string TeamPlayer_name; /* For the team members and their positions*/
+        std::fstream ImportantFile; /* This file will be used for writing stuff like team name and saving it. */
 
+    /* All functions are declared here.*/
     public:
         //This function takes the name of the player playing this dumbass game.
         void TakeEntry_details() {
             std::cout<<"Welcome to Cricket!"<<std::endl; //All these are polite output lines.
             std::cout<<"Please enter your name to start: ";
             std::cin>>FirstName;
-            ImpFileName_Two = FirstName;
             std::cout<<"Thank you "<<FirstName<<std::endl;
-            ResultImportantFile = ImpFileName_One + ImpFileName_Two; //concatenating the strings for a procedure name file
+            ResultImportantFile = ImpFileName_One + FirstName; //concatenating the strings for a procedure name file
             /*Resulting file name should be of format ImportantFile/NameofPerson/ 
             Like ImportantFileJohn, ImportantFileMadhava, blah blah */
             ImportantFile.open(ResultImportantFile.c_str(), std::ios::out); /*Using the open function to create a file
@@ -50,6 +52,33 @@ class introduction_check {
             std::cout<<"What would you like to do?"<<std::endl;
             std::cout<<"1.Create your own team for all games\n2.Start Quick Play with System Team"<<std::endl;
             std::cin>>introduction_check_details_option1;
+        }
+        /* This function will create the team given by the player. */
+        void CreateTeam_byUser() {
+            std::map<std::string,std::map<int,int>> T;
+            std::map<std::string,std::map<int,int>>::iterator itr;
+            std::map<int,int>::iterator ptr; 
+            int n=11;
+            while(n!=0) {
+                std::cin>>TeamPlayer_name;
+                std::cin>>runs_total>>wickets_total;
+                T.insert(make_pair(TeamPlayer_name,std::map<int,int>()));
+                T[TeamPlayer_name].insert(std::make_pair(runs_total,wickets_total));
+                n--;
+            }
+            ImportantFile.open(ResultImportantFile.c_str(), std::ios::out);
+            if(!ImportantFile) {
+                        std::cout<<"Record failed to open!"<<std::endl;
+            }
+            else {
+                for(itr=T.begin();itr!=T.end();itr++) {
+                    for(ptr=itr->second.begin();ptr!=itr->second.end();ptr++) {
+                        ImportantFile << "Player "<<n<<": "<<itr->first<<" Runs: "<<ptr->first<<" Wickets: "<<ptr->second<<std::endl;
+                        n++;
+                    }
+                }
+            }
+            ImportantFile.close();
         } 
 };
 
@@ -60,5 +89,6 @@ int main(void) {
     introduction_check i;
     //calling the function
     i.TakeEntry_details();
+    i.CreateTeam_byUser();
     return 0;
 }
