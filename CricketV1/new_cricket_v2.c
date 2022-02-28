@@ -26,7 +26,7 @@ void case_one_function() {
       printf("\nThe bowler is ready! Are you ready?\n Play a shot: ");
       scanf("%d",&shot);
       bowl=rand()%8;
-      if(shot>6) {
+      if(shot>6 || shot<0) {
         printf("The ball's high in the air, and it's caught!\n");
         printf("OUT!");
         first_wickets--;
@@ -162,7 +162,7 @@ do {
   printf("Play the shot: ");
   scanf("%d",&shot);
   bowl=rand()%8;
-  if(shot>6) {
+  if(shot>6 || shot<0) {
     printf("The ball is high in the air!\n");
     printf("OUT!\n");
     second_wickets--;
