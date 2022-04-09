@@ -8,7 +8,7 @@ int main(void) {
     std::mt19937 generator (number);
     std::cin>>n;
     while(n!=0) {
-    std::cout<<(generator()%1000)<<std::endl;
+    std::cout<<(generator()%7)<<std::endl;
     n--;
     }
     return 0;
