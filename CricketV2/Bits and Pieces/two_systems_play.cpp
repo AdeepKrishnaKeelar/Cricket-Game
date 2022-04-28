@@ -7,6 +7,7 @@
 #include<chrono>
 #include<stdlib.h>
 #include<time.h>
+#include<thread> /* sleep functions */
 /* Global defination of the Mersenne Twister Random Engine */
 unsigned number = std::chrono::system_clock::now().time_since_epoch().count();
 std::mt19937 generator(number);
@@ -21,7 +22,7 @@ class Game_play {
         int s1_toss_choice, s2_toss_choice, gen_toss, toss_flag;
         int s1_batting_score, s2_batting_score;
         int s1_wickets, s2_wickets;
-        int sample_score, shot, ball;
+        int chase_score=0;
         int game_flag, batting_flag, bowling_flag;
         const int system_one = 1, system_two = 2; 
         const int batting_choice=1, bowling_choice=0;
@@ -37,12 +38,14 @@ class Game_play {
             s2_wickets=0;
             toss_flag=0;
             game_flag=0;
+            chase_score=0;
             batting_flag=0;
             bowling_flag=0;
             srand(time(0)); /* The rand function is set up here */
             gen_toss = rand()%2 && (generator()% 2);
         }
         
+        /* In this function, the toss is decided between the two teams. */
         void toss_play() {
             std::cout<<sys1<<" V/S "<<sys2<<std::endl;
             std::cout<<"The systems are setting up the toss!"<<std::endl;
@@ -87,9 +90,61 @@ class Game_play {
                     bowling_flag = system_two;
                 }
             } 
-        }  
+        } 
+
+        int bat() {
+
+        }
+
+        int bowl() {
+
+        }
+
+        void update_score() {
+
+        }
+
+        void summarise_details() {
+
+        }
+
+        
+        void batting_play() {
+            int shot=0, ball=0, wicket=0;
+            std::string batsman, bowler;
+            toss_play();          
+            if(batting_flag==1) {
+                std::cout<<sys1<<" has begun it's play! "<<std::endl;
+                std::cout<<sys2<<" is bowling against "<<sys1<<std::endl;
+                batsman=sys1;
+                bowler=sys2;
+
+            } else {
+                std::cout<<sys2<<" has begun it's play! "<<std::endl;
+                std::cout<<sys1<<" is bowling against "<<sys2<<std::endl;
+                batsman=sys2;
+                bowler=sys1;
+            }
+
+            /* The scoring starts here */
+                for(int i=0;i<120 || wicket!=10;i++) {
+                    shot=bat();
+                    ball=bowl();
+                    std::cout<<"Summary of "<<(i+1)<<" -- "<<std::endl;
+                    if(shot==ball) {
+                        std::cout<<"The player is out!"<<std::endl;
+                        wicket+=1;
+                    } else {
+                        std::cout<<batsman<<" has scored "<<shot<<" runs "<<std::endl;
+                        update_score();
+                        summarise_details();
+                    }
+                    std::this_thread::sleep_for(std::chrono::nanoseconds(10)); /* A delay function */
+                }
+        }
+        
 };
 int main(int argc, char* argv[]) {
     Game_play GP;
-    GP.toss_play();
+    GP.batting_play();
 }
