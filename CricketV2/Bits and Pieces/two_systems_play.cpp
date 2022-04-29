@@ -23,7 +23,7 @@ class Game_play {
         int s1_batting_score, s2_batting_score;
         int s1_wickets, s2_wickets;
         int chase_score=0;
-        int game_flag, batting_flag, bowling_flag;
+        int game_flag, batting_flag, bowling_flag, winning_flag;
         const int system_one = 1, system_two = 2; 
         const int batting_choice=1, bowling_choice=0;
 
@@ -41,6 +41,7 @@ class Game_play {
             chase_score=0;
             batting_flag=0;
             bowling_flag=0;
+            winning_flag=0;
             srand(time(0)); /* The rand function is set up here */
             gen_toss = rand()%2 && (generator()% 2);
         }
@@ -101,6 +102,7 @@ class Game_play {
                         break;
                 default: shot=-1;   
             }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100)); /* A delay function */
             return shot;
         }
 
@@ -113,29 +115,63 @@ class Game_play {
                         break;
                 default: ball=-1;   
             }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100)); /* A delay function */
             return ball;
         }
 
         void update_score(int shot, int wicket) {
             switch(batting_flag) {
-                case 1: s1_batting_score+=shot;
+                case 1: if(wicket==1) {
+                            shot=0;
+                        }
+                        s1_batting_score+=shot;
                         s1_wickets=wicket;
                         break;
                 case 2: s2_batting_score+=shot;
                         s2_wickets=wicket;
                         break;   
             }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100)); /* A delay function */
         }
 
         void summarise_details(std::string batsman) {
             switch(batting_flag) {
-                case 1: std::cout<<"Details of Team "<<batsman<<std::endl;
+                case 1: if(s1_wickets==10) {
+                            std::cout<<"Details of Team "<<batsman<<std::endl;
+                            std::cout<<"Final Score - "<<s1_batting_score<<" - "<<s1_wickets<<std::endl;
+                            break;    
+                        }
+                        std::cout<<"Details of Team "<<batsman<<std::endl;
                         std::cout<<"Score - "<<s1_batting_score<<" - "<<s1_wickets<<std::endl;
                         break;
-                case 2: std::cout<<"Details of Team "<<batsman<<std::endl;
+
+                case 2: if(s2_wickets==10) {
+                            std::cout<<"Details of Team "<<batsman<<std::endl;
+                            std::cout<<"Final Score - "<<s2_batting_score<<" - "<<s2_wickets<<std::endl;
+                            break;    
+                        }
+                        std::cout<<"Details of Team "<<batsman<<std::endl;
                         std::cout<<"Score - "<<s2_batting_score<<" - "<<s2_wickets<<std::endl;
                         break;   
             }
+            std::this_thread::sleep_for(std::chrono::milliseconds(100)); /* A delay function */
+        }
+
+        int check_match_status(int shot,int wicket) {
+            int winning_team=0;
+            chase_score-=shot;
+            if(chase_score<=0) {
+                switch(batting_flag) {
+                    case 1: winning_team=batting_flag; break;
+                    case 2: winning_team=batting_flag; break;
+                }
+            } else if(wicket==10) {
+                switch(bowling_flag) {
+                    case 1:winning_team=bowling_flag; break;
+                    case 2:winning_team=bowling_flag; break;
+                }
+            }
+            return winning_team;
         }
 
         
@@ -156,7 +192,7 @@ class Game_play {
                 bowler=sys1;
             }
 
-            /* The scoring starts here */
+            /* The scoring/attacking starts here */
                 for(int i=0;i<120;i++) {
                     if(wicket!=10) {
                     shot=bat();
@@ -165,13 +201,67 @@ class Game_play {
                     if(shot==ball) {
                         std::cout<<"The player is out!"<<std::endl;
                         wicket+=1;
+                        update_score(shot,wicket);
+                        summarise_details(batsman);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100)); /* A delay function */
                     } else {
                         std::cout<<batsman<<" has scored "<<shot<<" runs "<<std::endl;
                         update_score(shot,wicket);
                         summarise_details(batsman);
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100)); /* A delay function */
                     }
                     std::this_thread::sleep_for(std::chrono::nanoseconds(10)); /* A delay function */
+                    std::cout<<"--------------------------------------------------------------"<<std::endl;
                 }
+            }
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
+            switch(batting_flag) {
+                case 1: chase_score=s1_batting_score; break;
+                case 2: chase_score=s2_batting_score; break;
+            }
+            /* Swap flags and player statuses */
+            std::swap(batting_flag,bowling_flag);
+            std::swap(batsman,bowler);
+            wicket=0;
+            int dummy_score=chase_score;
+            std::cout<<"Currently, Team "<<batsman<<" has to score "<<chase_score<<std::endl;
+            /* The chasinng/defending starts here */
+            for(int i=0;i<120;i++) {
+                if(wicket!=10) {
+                    shot=bat();
+                    ball=bowl();
+                    std::cout<<"Summary of "<<(i+1)<<" -- "<<std::endl;
+                    if(shot==ball) {
+                        std::cout<<"The player is out!"<<std::endl;
+                        wicket+=1;
+                        update_score(shot,wicket);
+                        summarise_details(batsman);
+                        winning_flag=check_match_status(shot,wicket);
+                        if(winning_flag>0) {
+                            break;
+                        }
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100)); /* A delay function */
+                    } else {
+                        std::cout<<batsman<<" has scored "<<shot<<" runs "<<std::endl;
+                        update_score(shot,wicket);
+                        summarise_details(batsman);
+                        dummy_score-=shot;
+                        std::cout<<(dummy_score)<<" runs to win with "<<(10-wicket)<<"wickets to spare and from "<<(120-i)<<" balls"<<std::endl;
+                        winning_flag=check_match_status(shot,wicket);
+                        if(winning_flag>0) {
+                            break;
+                        }
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100)); /* A delay function */
+                    }
+                    std::this_thread::sleep_for(std::chrono::nanoseconds(10)); /* A delay function */
+                    std::cout<<"--------------------------------------------------------------"<<std::endl;
+                }
+            }
+            switch(winning_flag) {
+                case 1: std::cout<<sys1<<" has won!"<<std::endl; break;
+                case 2: std::cout<<sys2<<" has won!"<<std::endl; break;
             }
         }
         
