@@ -93,19 +93,49 @@ class Game_play {
         } 
 
         int bat() {
-
+            int shot=0;
+            switch(batting_flag) {
+                case 1: shot=rand()%7;
+                        break;
+                case 2: shot=(generator()%7);
+                        break;
+                default: shot=-1;   
+            }
+            return shot;
         }
 
         int bowl() {
-
+            int ball=0;
+            switch(bowling_flag) {
+                case 1: ball=rand()%7;
+                        break;
+                case 2: ball=(generator()%7);
+                        break;
+                default: ball=-1;   
+            }
+            return ball;
         }
 
-        void update_score() {
-
+        void update_score(int shot, int wicket) {
+            switch(batting_flag) {
+                case 1: s1_batting_score+=shot;
+                        s1_wickets=wicket;
+                        break;
+                case 2: s2_batting_score+=shot;
+                        s2_wickets=wicket;
+                        break;   
+            }
         }
 
-        void summarise_details() {
-
+        void summarise_details(std::string batsman) {
+            switch(batting_flag) {
+                case 1: std::cout<<"Details of Team "<<batsman<<std::endl;
+                        std::cout<<"Score - "<<s1_batting_score<<" - "<<s1_wickets<<std::endl;
+                        break;
+                case 2: std::cout<<"Details of Team "<<batsman<<std::endl;
+                        std::cout<<"Score - "<<s2_batting_score<<" - "<<s2_wickets<<std::endl;
+                        break;   
+            }
         }
 
         
@@ -127,7 +157,8 @@ class Game_play {
             }
 
             /* The scoring starts here */
-                for(int i=0;i<120 || wicket!=10;i++) {
+                for(int i=0;i<120;i++) {
+                    if(wicket!=10) {
                     shot=bat();
                     ball=bowl();
                     std::cout<<"Summary of "<<(i+1)<<" -- "<<std::endl;
@@ -136,11 +167,12 @@ class Game_play {
                         wicket+=1;
                     } else {
                         std::cout<<batsman<<" has scored "<<shot<<" runs "<<std::endl;
-                        update_score();
-                        summarise_details();
+                        update_score(shot,wicket);
+                        summarise_details(batsman);
                     }
                     std::this_thread::sleep_for(std::chrono::nanoseconds(10)); /* A delay function */
                 }
+            }
         }
         
 };
