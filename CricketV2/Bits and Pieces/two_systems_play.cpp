@@ -248,7 +248,7 @@ class Game_play {
                         update_score(shot,wicket);
                         summarise_details(batsman);
                         dummy_score-=shot;
-                        std::cout<<(dummy_score)<<" runs to win with "<<(10-wicket)<<"wickets to spare and from "<<(120-i)<<" balls"<<std::endl;
+                        std::cout<<(dummy_score)<<" runs to win with "<<(10-wicket)<<" wickets to spare and from "<<(120-i)<<" balls"<<std::endl;
                         winning_flag=check_match_status(shot,wicket);
                         if(winning_flag>0) {
                             break;

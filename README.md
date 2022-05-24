@@ -16,3 +16,11 @@ The C++ version coming in bits and pieces, so far, a display of two random funct
 And also maybe a machine learning algorithm to predict Adeep's next moves!.
  
 C Version done, C++, Java, Python and new upcoming in Rust also!
+
+C Version with a few bugs, will be sorted. 
+
+C++ version few objectives passed, but will be done.
+
+Java, Python and Rust version to start very soon!
+
+C# ASP.NET version..? Let's see! 

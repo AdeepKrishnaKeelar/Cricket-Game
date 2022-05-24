@@ -86,18 +86,18 @@
     }    
   }
   std::string Read_First_Name(int N) {
-    /*std::string s;
+    std::string s;
     for(int i=0;i<N;i++) {
       getline(firstNames_file,s);
     }
     std::cout<<s;
-    return s;*/
-    char firstName[FirstName_size][N];
+    return s;
+    /*char firstName[FirstName_size][N];
     int a=0;
     while((a<N)&&firstNames_file.getline(firstName[a][N])) {
       ++a;
     }
-    return firstName[a][N];
+    return firstName[a][N]; */
   }
   std::string Read_Last_Name(int M) {
     std::string s;
