@@ -6,10 +6,8 @@ Written in Bits and Pieces before clubbing everything together
 Former versions removed, tried to minimize code
 
 """
-#all modules imported to be mentioned here
+#all imported valid libraries imported to be mentioned here
 #start
-
-
 
 #end
 
@@ -22,17 +20,26 @@ Game_Mode=0
 def game_startup():
     print("Welcome to CricketV3!\n")
     Game_User=input("Enter the User Name:- ")
-    flag = True
-    while flag != False:
+    print(Game_User+", Enter the mode of play!\n")
+    #using a while loop until user enters something valid
+    while True:
+        Game_Mode=input("1.Versus System\n2.Watch a Game\n3.Multiplayer\n4.Tournament\n")
+        #Exception handling for proper results
         try:
-            Game_Mode=(Game_User+", enter the Game-Mode-\n1.Play Against System\n2.Multiplayer\n3.Tournament")
-            if int(Game_Mode) > 3:
-                raise Exception("Please enter valid option!")
-        finally:
-            print("Everything is taken!")
-            flag = False
+            Game_Mode=int(Game_Mode)
+        except ValueError:
+            #Incase of wrong entries
+            print("Valid Entries please!\n")
+            continue
+        if Game_Mode>4 or Game_Mode<0:
+            #incase of invalid numerical entries
+            print("Valid entry please!\n")
+        else:
+            #incase of correct valid entry
+            print(Game_User+", you've chosen option "+str(Game_Mode)+"\n")
+            break
 
-
+#main function
 def main():
     game_startup()
 
