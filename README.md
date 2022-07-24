@@ -23,6 +23,6 @@ C++ version few objectives passed, but will be done.
 
 Java, Python and Rust version to start very soon!
 
-Java Version begun!
+Java Version begun! Python App Development in Kivy hopefully!
 
 C# ASP.NET version..? Let's see! 
