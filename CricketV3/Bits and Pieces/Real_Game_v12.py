@@ -19,6 +19,8 @@
 import random
 import numpy #Numpy library for numbers
 import matplotlib #For the graphical representation
+from abc import ABC, abstractmethod
+import dataclasses
 # -----------------------------------------------
 
 '''
@@ -32,9 +34,22 @@ Functions List --
 Class List --
 ---------------
 1. BasicSetup: Here, in this class, the basic functions of toss and startup is done.
+2. Choice_One_Pick: Here, in this class, 'Versus System' option is picked.
 '''
 
-class BasicSetup: 
+class Abstracted_Methods(ABC):
+    def __init__(self):
+        pass
+
+    @abstractmethod #Abstract Method because For Choice_Two and Choice_Three easy definition.
+    def Batting_Function(self): #Only for User to score
+        pass
+    
+    @abstractmethod #Abstract Method because For Choice_Two and Choice_Three easy definition.
+    def Bowling_Function(self): #Only for User to bowl
+        pass
+
+class BasicSetup(Abstracted_Methods): 
     def __init__(self,name):
         global Game_User, System_User #Variable to keep User's Name and 
         self.Game_User=name
@@ -76,7 +91,7 @@ class BasicSetup:
         try:
             #Try catch to make sure User uses valid input
             UserToss=int(input("Enter the toss: 1.Heads \n0. Tails\n"))
-        except:
+        except ValueError:
             #Exceptions
             print("Invalid Entry") 
         SystemToss=random.random() #Here, System picks some random value for its toss
@@ -95,12 +110,28 @@ class BasicSetup:
             print("The System has decided to "+self.Toss_Choice+" and Team "+self.Game_User+" will "+self.Later_Choice)
             self.Game_State={self.Toss_Choice:self.System_User,self.Later_Choice:self.Game_User} #Setting the status of the games
 
+'''
+    DataClass will implement to make code easier and handy.
+'''
+
+class Choice_One_Pick(BasicSetup):
+    def __init__(self):
+        self.Overs = 0
+    
+    def GamePlay_One(self):
+        print({self.Game_User},", you will be facing Team System!\nPick the Overs -- ")
+        try:
+            self.Overs = int(input("1. 5 Overs\n2.10 Overs\n3. 20 Overs\n4. All-Out"))
+        except ValueError:
+            print("Invalid entry!")
+
+
+
 def main(): #Definition of the main function
     name = input("Enter your name -- ")
     Obj = BasicSetup(name)
     Obj.Game_Startup()
     Obj.Game_Toss()
-    print(Obj.Game_State)
 
 if __name__ == "__main__": #Main()
     main()
