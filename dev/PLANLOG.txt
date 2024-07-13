@@ -1,0 +1,14 @@
+1. Team Setup and Play Mode
+
+Acceptance
+1. Randomly generate 11 players team or user-provided names.
+2. Set Team Name.
+3. Must have ability to take recording of their scores, balls-faced, etc,.
+4. Strike Rotation must be recorded.
+5. System Team must have random players, random team-name, strike rotation, bowlers and batsmen data recording, etcetera.
+
+MUSTS
+1. Game will be in Compiler Style Build Modes.
+
+Plan
+1. Develop the Random Team Name and Players Name Generation
