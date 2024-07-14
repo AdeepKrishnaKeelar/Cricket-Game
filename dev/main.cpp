@@ -8,12 +8,14 @@
 #include <iostream>
 #include <string>
 #include "libs/lexer.hpp"
+#include "libs/logic_setter.hpp"
 
 
 int main(int argc, char* argv[]) {
     // Defining the class to capture the user input.
     Command cmd;
     Lexer lexer;
+    Logic_Setter logic_setter;
     std::string input_command;
     intro_func();
     while(1) {
@@ -29,7 +31,9 @@ int main(int argc, char* argv[]) {
             cmd.setCommandBuffer(input_command); // Set the input command to the main object.
             
             //Now, pass the cmd object to the lexical analyser and breaker.    
-            lexer.lexer_tokenizer(cmd);       
+            lexer.lexer_tokenizer(cmd);
+            logic_setter.Logic_Brancher(cmd,lexer);
+                   
         } catch(const std::exception& e) {
             // Print the exception handed.
             std::cout<<e.what()<<"\n";

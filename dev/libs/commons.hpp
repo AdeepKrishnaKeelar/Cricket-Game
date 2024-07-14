@@ -12,7 +12,8 @@ typedef enum {
     GAME_PLAY, // Command to play the game. This command will have sub commands.
     VERSION, // Details of the version.
     HELP, // Details of the entire Game.
-    EXIT // Command to exit.
+    EXIT, // Command to exit.
+    UNKNOWN_COMMAND // Unknown command handling.
 } Commands_Type;
 
 // Class for the input command buffer.
