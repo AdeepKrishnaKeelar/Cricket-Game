@@ -31,11 +31,13 @@ typedef class Lexer {
             std::transform(temp_token.begin(),temp_token.end(),temp_token.begin(),::toupper);
             switch(temp_token.at(0)) {
                 case 'C':
-                    if(temp_token == "CREATE_CUSTOM_TEAM") return CREATE_CUSTOM_TEAM;
-                    break;
+                    if(temp_token == "CREATE_CUSTOM_TEAM") return CREATE_CUSTOM_TEAM; break;
                 case 'E':
-                    if(temp_token == "EXIT") return EXIT;
-                    break;
+                    if(temp_token == "EXIT") return EXIT; break;
+                case 'H':
+                    if(temp_token == "HELP") return HELP; break;
+                case 'V':
+                    if(temp_token == "VERSION") return VERSION; break;
                 default:
                     return UNKNOWN_COMMAND;
             }
@@ -53,6 +55,10 @@ typedef class Lexer {
             }
             temp_cmd=set_command_type(tokens[0]);
             cmd.setCommandSetter(temp_cmd);
+        }
+
+        void lexer_resetter() {
+            tokens.clear();
         }
     
 } Lexer;

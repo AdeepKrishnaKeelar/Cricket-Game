@@ -33,6 +33,10 @@ int main(int argc, char* argv[]) {
             //Now, pass the cmd object to the lexical analyser and breaker.    
             lexer.lexer_tokenizer(cmd);
             logic_setter.Logic_Brancher(cmd,lexer);
+            
+            // Run the reset-functions to clear up the mess.
+            lexer.lexer_resetter();
+            cmd.reset();
                    
         } catch(const std::exception& e) {
             // Print the exception handed.

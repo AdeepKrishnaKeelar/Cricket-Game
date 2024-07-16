@@ -9,6 +9,8 @@
 
 //Pre-required Header files.
 #include "lexer.hpp"
+#include "generators/name_team_generator.hpp"
+#include "cricket/common.hpp"
 
 typedef class Logic_Setter {
     private:
@@ -65,6 +67,7 @@ typedef class Logic_Setter {
                         -t|--type ---> Set the players of the team. If random, system chooses names, else file is mandatory.
                         -f|--file ---> File Path with name of team and team players.   
                     */
+                    random_name_generator();
                     break;
                 }
             }

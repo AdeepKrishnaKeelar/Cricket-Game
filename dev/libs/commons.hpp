@@ -24,6 +24,11 @@ typedef class Input_Command {
         std::string command_buffer; 
     // Getters, Setters, etcetera, for Input_Command.
     public:
+        // Constructor to set up the base-level member values.
+        Input_Command() {
+            command_buffer = " ";
+            command_type = UNKNOWN_COMMAND;
+        }
         // Set the input command buffer.
         void setCommandBuffer(const std::string& buffer) {
             command_buffer = buffer;
@@ -39,6 +44,11 @@ typedef class Input_Command {
         // Return the command type.
         Commands_Type getCommandType() const {
             return command_type;
+        }
+        // Reset the object
+        void reset() {
+            command_type = UNKNOWN_COMMAND;
+            command_buffer.clear();
         }
 } Command;
 
