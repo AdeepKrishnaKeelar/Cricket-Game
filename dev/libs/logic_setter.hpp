@@ -15,6 +15,7 @@
 typedef class Logic_Setter {
     private:
         const float version = 1.0;
+        Cricket_Team cricket_team;
     public:
 
         // Helper functions.
@@ -67,7 +68,11 @@ typedef class Logic_Setter {
                         -t|--type ---> Set the players of the team. If random, system chooses names, else file is mandatory.
                         -f|--file ---> File Path with name of team and team players.   
                     */
-                    random_name_generator();
+                    cricket_team.team_details.Team_List = random_name_generator();
+                    cricket_team.team_details.Team_Name = random_team_name_generator();
+                    cricket_team.CreatePlayers();
+                    cricket_team.DisplayTeamName();
+                    cricket_team.DisplayPlayerDetail();
                     break;
                 }
             }
